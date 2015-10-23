@@ -10,8 +10,11 @@ import org.jfree.ui.ApplicationFrame;
 
 public class HistogramDisplay extends ApplicationFrame {
     
-     public HistogramDisplay() {
+    private final Histogram<String> histo;
+    
+     public HistogramDisplay(Histogram<String> histo) {
         super("HISTOGRAMA");
+        this.histo = histo;
         setContentPane(createPanel());
         pack();
      }
@@ -23,24 +26,16 @@ public class HistogramDisplay extends ApplicationFrame {
     }
      
      private JFreeChart createChart (DefaultCategoryDataset dataset){
-        JFreeChart chart = ChartFactory.createBarChart("Histograma de Dominios", "DOMINIOS", "Nº de email", dataset, PlotOrientation.VERTICAL, false, true, false);
+        JFreeChart chart = ChartFactory.createBarChart("Histograma de Dominios", "DOMINIOS", "Nº de correos", dataset, PlotOrientation.VERTICAL, false, true, false);
         return chart;
     }
      
     private DefaultCategoryDataset createDataset(){
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.addValue(10, "ENE", "gmail.com");
-        dataset.addValue(7, "ENE", "ulpgc.es");
-        dataset.addValue(4, "ENE", "ull.es");
-        dataset.addValue(8, "ENE", "hotmail.com");
-        dataset.addValue(1, "FEB", "gmail.com");
-        dataset.addValue(0, "FEB", "ulpgc.es");
-        dataset.addValue(-10, "FEB", "ull.es");
-        dataset.addValue(6, "FEB", "hotmail.com");
-        dataset.addValue(20, "MAR", "gmail.com");
-        dataset.addValue(15, "MAR", "ulpgc.es");
-        dataset.addValue(8, "MAR", "ull.es");
-        dataset.addValue(2, "MAR", "hotmail.com");
+        
+        for (String key : histo.keySet()) {
+            dataset.addValue(histo.get(key), "", key);
+        }
         return dataset;
     }
     
